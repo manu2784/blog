@@ -3,7 +3,7 @@ import { Container, AppBar, Toolbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import HomeIcon from "@material-ui/icons/Home";
 import SearchForm from "./components/SearchForm/SerachForm";
-import PostContext from "./context/post-context";
+import BlogList from "./components/BlogList/BlogList";
 
 // CSS-in-JSS
 const useStyles = makeStyles({
@@ -26,10 +26,27 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const [posts, setPost] = useState([]);
-  const value = {posts, setPost};
+
+
+  const [subRedit, setSubredit] = useState("");
+
+  const getPosts = () => {
+    if(subRedit){
+    let url =  "https://www.reddit.com/r/"+subRedit+".json";
+    fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        setPost(res.data.children);
+      })
+    }
+  };
+  
+  const setSub = e => {
+    setSubredit(e.target.value);
+  };
 
   return (
-    <PostContext.Provider value={value}>
+  
       <Container fixed classes={{ root: classes.root }}>
         <AppBar position="fixed">
           <Container fixed>
@@ -41,10 +58,12 @@ function App() {
             </Toolbar>
           </Container>
         </AppBar>
-        <SearchForm/>
-     
+        <SearchForm getPosts={getPosts} setSub={setSub}/>
+        { posts.length>0 &&
+         <BlogList posts={posts}/>
+        }
       </Container>
-      </PostContext.Provider>
+    
   );
 }
 

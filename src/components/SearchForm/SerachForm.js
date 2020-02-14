@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button } from "@material-ui/core";
-import { blockStatement } from "@babel/types";
-import PostContext from "../../context/post-context";
+
 
 const useStyles = makeStyles(() => ({
   form: {
@@ -24,24 +23,10 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function SearchForm() {
+function SearchForm(props) {
   const classes = useStyles();
 
-  const [posts, setPost] = useContext(PostContext);
-  const [subRedit, setSubredit] = useState("");
 
-  const getPosts = () => {
-    if(subRedit){
-    let url =  "https://www.reddit.com/r/"+subRedit+".json";
-    fetch(url)
-      .then(res => res.json())
-      .then(res => console.log(res.data.children))
-    }
-  };
-  
-  const setSub = e => {
-    setSubredit(e.target.value);
-  };
 
   return (
     <div>
@@ -51,7 +36,7 @@ function SearchForm() {
           classes={{ root: classes.innerRoot }}
           autoFocus
           type="text"
-          onBlur={setSub}
+          onBlur={props.setSub}
           variant="outlined"
           fullWidth
           placeholder="Enter company symbol or name"
@@ -61,7 +46,7 @@ function SearchForm() {
         <Button
           variant="contained"
           color="primary"
-          onClick={getPosts}
+          onClick={props.getPosts}
           className={classes.button}
         >
           Get Data
