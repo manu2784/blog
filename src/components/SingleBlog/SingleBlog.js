@@ -43,7 +43,7 @@ function SingleBlog(props) {
   return (
     <React.Fragment>
       {props.posts.map(post => (
-        <Card className={classes.root}>
+        <Card className={classes.root} key={post.data.name}>
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
