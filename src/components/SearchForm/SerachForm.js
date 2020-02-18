@@ -39,7 +39,7 @@ function SearchForm(props) {
           onBlur={props.setSub}
           variant="outlined"
           fullWidth
-          placeholder="Enter company symbol or name"
+          placeholder="Enter Subredit"
           required={true}
         />
 

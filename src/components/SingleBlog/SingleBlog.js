@@ -1,18 +1,21 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
+import {
+  Card,
+    CardHeader,
+    CardMedia,
+    CardContent,
+    CardActions,
+    Avatar,
+    IconButton,
+    Typography,
+    Button
+} from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import ShowMore from 'react-show-more';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,33 +43,52 @@ const useStyles = makeStyles(theme => ({
 
 function SingleBlog(props) {
   const classes = useStyles();
+
+  function checkMedia(data) {
+        let image = data.url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+        if(image) return "image";
+
+        if(data.secure_media_embed.content)
+          return "embeded_media";
+
+        return "link";
+    }
   return (
     <React.Fragment>
       {props.posts.map(post => (
         <Card className={classes.root} key={post.data.name}>
+          <Button href={post.data.url} >
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
-                R
+                  {post.data.author_fullname[0]}
               </Avatar>
             }
-            action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon />
-              </IconButton>
-            }
             title={post.data.title}
-            subheader="September 14, 2016"
-          />
-          <CardMedia
+            subheader={new Date(post.data.created *1000).toISOString().split("T").join(" ")}
+          /></Button>
+            { checkMedia(post.data) === "image" && <CardMedia
             className={classes.media}
             image={post.data.url}
             title="Paella dish"
-          />
+          />}
+
+            {checkMedia(post.data) === "embeded_media" &&
+            <iframe src={post.data.secure_media_embed.media_domain_url} width={post.data.secure_media_embed.width} height={post.data.secure_media_embed.height}></iframe>
+            }
+
+
           <CardContent>
+            <ShowMore
+                lines={3}
+                more='Show more'
+                less='Show less'
+                anchorClass=''
+            >
             <Typography variant="body2" color="textSecondary" component="p">
             {post.data.selftext}
             </Typography>
+            </ShowMore>
           </CardContent>
           <CardActions disableSpacing>
             <IconButton aria-label="add to favorites">
