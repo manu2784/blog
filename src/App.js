@@ -36,7 +36,7 @@ function App() {
     fetch(url)
       .then(res => res.json())
       .then(res => {
-        setPost(res.data.children);
+        setPost(res.data.children.sort((a, b)=> a.data.created < b.data.created));
       })
     }
   };
