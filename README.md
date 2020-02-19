@@ -1,11 +1,11 @@
 
-In the project directory, you can run:
+To run the app 
 
-### `npm install`
+1. npm install
 
-### `npm start`
+2. npm start
 
 To Test
-### `npm test`
+1. npm test
 
 
