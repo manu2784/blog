@@ -44,8 +44,9 @@ function App() {
       .then(res => {
 
         // sorting posts
+          if(res.data.children.length>0)
         setPost(res.data.children.sort((a, b)=> a.data.created < b.data.created));
-      })
+      }).catch(e=>console.log(e))
     }
   };
   

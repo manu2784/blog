@@ -12,9 +12,7 @@ import {
     Button
 } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ShowMore from 'react-show-more';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
@@ -26,16 +24,6 @@ const useStyles = makeStyles(theme => ({
   media: {
     height: 0,
     paddingTop: "56.25%" // 16:9
-  },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest
-    })
-  },
-  expandOpen: {
-    transform: "rotate(180deg)"
   },
   avatar: {
     backgroundColor: red[500]
@@ -61,7 +49,7 @@ function SingleBlog(props) {
   return (
     <React.Fragment>
       {props.posts.map(post => (
-        <Card className={classes.root} key={post.data.name}>
+        <Card className={classes.root} key={post.data.id}>
           <Button href={post.data.url} >
           <CardHeader
             avatar={

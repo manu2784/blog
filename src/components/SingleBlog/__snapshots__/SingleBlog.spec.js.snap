@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BlogList should render single blog component 1`] = `ShallowWrapper {}`;
+
+exports[`ImageGrid should render single blog component 1`] = `ShallowWrapper {}`;
+
+exports[`ImageGrid should render the image grid page 1`] = `ShallowWrapper {}`;
+
+exports[`SingleBlog should render single blog component 1`] = `ShallowWrapper {}`;
