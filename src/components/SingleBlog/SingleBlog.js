@@ -16,6 +16,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ShowMore from 'react-show-more';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,7 +39,11 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     backgroundColor: red[500]
-  }
+  },
+   vote:{
+    fontSize:".8rem",
+       margin:"0 4px"
+   }
 }));
 
 function SingleBlog(props) {
@@ -61,16 +66,16 @@ function SingleBlog(props) {
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
-                  {post.data.author_fullname[0]}
+                  {post.data.author.charAt(0)}
               </Avatar>
             }
             title={post.data.title}
-            subheader={new Date(post.data.created *1000).toISOString().split("T").join(" ")}
+            subheader={new Date(post.data.created *1000).toISOString().split("T").join(" ").slice(0, -8)}
           /></Button>
             { checkMedia(post.data) === "image" && <CardMedia
             className={classes.media}
             image={post.data.url}
-            title="Paella dish"
+            title=""
           />}
 
             {checkMedia(post.data) === "embeded_media" &&
@@ -91,8 +96,8 @@ function SingleBlog(props) {
             </ShowMore>
           </CardContent>
           <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
+            <IconButton aria-label=" vote score">
+                <ThumbUpIcon /> <span className={classes.vote}> {post.data.score}</span>
             </IconButton>
             <IconButton aria-label="share">
               <ShareIcon />

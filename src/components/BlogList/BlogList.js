@@ -7,7 +7,7 @@ import SingleBlog from "../SingleBlog/SingleBlog";
 
 function BlogList(props){
     return(
-    <Container>
+    <Container >
         
         <SingleBlog posts={props.posts}/>
      

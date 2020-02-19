@@ -49,7 +49,7 @@ function SearchForm(props) {
           onClick={props.getPosts}
           className={classes.button}
         >
-          Get Data
+          SEARCH
         </Button>
       </form>
     </div>

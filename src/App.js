@@ -1,9 +1,10 @@
 import React, {useState} from "react";
-import { Container, AppBar, Toolbar } from "@material-ui/core";
+import { Container, AppBar, Toolbar, TablePagination } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import HomeIcon from "@material-ui/icons/Home";
 import SearchForm from "./components/SearchForm/SerachForm";
 import BlogList from "./components/BlogList/BlogList";
+import { Button } from "@material-ui/core";
 
 // CSS-in-JSS
 const useStyles = makeStyles({
@@ -18,7 +19,11 @@ const useStyles = makeStyles({
   largeIcon: {
     verticalAlign: "text-bottom",
     marginRight: "5"
-  }
+  },
+    paginate:{
+    width:"100%",
+        margin:"5px"
+    }
 });
 
 
@@ -26,6 +31,7 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const [posts, setPost] = useState([]);
+    const [page, setPage] = useState(1);
 
 
   const [subRedit, setSubredit] = useState("");
@@ -36,6 +42,8 @@ function App() {
     fetch(url)
       .then(res => res.json())
       .then(res => {
+
+        // sorting posts
         setPost(res.data.children.sort((a, b)=> a.data.created < b.data.created));
       })
     }
@@ -45,8 +53,20 @@ function App() {
     setSubredit(e.target.value);
   };
 
+  function getDisplayPosts(){
+return posts.slice((page-1)*10, (page * 10));
+    }
+
+function handleChangePage(dir){
+if(dir==="up" && page < Math.ceil(posts.length/10)){
+  setPage(page+1);
+}
+
+if(dir === "down" && page> 1) {
+setPage(page-1)}
+}
+
   return (
-  
       <Container fixed classes={{ root: classes.root }}>
         <AppBar position="fixed">
           <Container fixed>
@@ -59,8 +79,14 @@ function App() {
           </Container>
         </AppBar>
         <SearchForm getPosts={getPosts} setSub={setSub}/>
+
+          { posts.length>0 && <div className={classes.paginate}>
+          <Button onClick={()=>{handleChangePage("down")}}>Prev</Button>
+      <Button onClick={()=>{handleChangePage("up")}}>Next</Button>
+      </div>}
+
         { posts.length>0 &&
-         <BlogList posts={posts}/>
+         <BlogList posts={getDisplayPosts()}/>
         }
       </Container>
     
