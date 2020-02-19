@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import HomeIcon from "@material-ui/icons/Home";
 import SearchForm from "./components/SearchForm/SerachForm";
 import BlogList from "./components/BlogList/BlogList";
-import { Button } from "@material-ui/core";
+import Pagination from "./components/Pagination/Pagination";
 
 // CSS-in-JSS
 const useStyles = makeStyles({
@@ -53,11 +53,11 @@ function App() {
     setSubredit(e.target.value);
   };
 
-  function getDisplayPosts(){
+  const getDisplayPosts = ()=>{
 return posts.slice((page-1)*10, (page * 10));
     }
 
-function handleChangePage(dir){
+const handleChangePage = (dir) => {
 if(dir==="up" && page < Math.ceil(posts.length/10)){
   setPage(page+1);
 }
@@ -80,14 +80,12 @@ setPage(page-1)}
         </AppBar>
         <SearchForm getPosts={getPosts} setSub={setSub}/>
 
-          { posts.length>0 && <div className={classes.paginate}>
-          <Button onClick={()=>{handleChangePage("down")}}>Prev</Button>
-      <Button onClick={()=>{handleChangePage("up")}}>Next</Button>
-      </div>}
+          { posts.length>0 && <Pagination handler={handleChangePage}/>}
 
         { posts.length>0 &&
          <BlogList posts={getDisplayPosts()}/>
         }
+          { posts.length>0 && <Pagination handler={handleChangePage}/>}
       </Container>
     
   );
